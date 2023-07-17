@@ -61,9 +61,9 @@ func (ls *LetStatement) String() string {
 	out.WriteString(ls.Name.String())
 	out.WriteString(" = ")
 
-	// if ls.Value != nil {
-	// 	out.WriteString(ls.Value.String())
-	// }
+	if ls.Value != nil {
+		out.WriteString(ls.Value.String())
+	}
 
 	out.WriteString(";")
 
