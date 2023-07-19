@@ -16,6 +16,8 @@ func TestLetStatements(t *testing.T) {
 		expectedValue      interface{}
 	}{
 		{"let x = 5;", "x", 5},
+		{"let y = true;", "y", true},
+		{"let foobar = y;", "foobar", "y"},
 	}
 
 	for _, tt := range tests {
@@ -25,13 +27,18 @@ func TestLetStatements(t *testing.T) {
 		checkParserErrors(t, p)
 
 		if len(program.Statements) != 1 {
-			t.Fatalf("program has not enough statments, got %d", len(program.Statements))
+			t.Fatalf("program has not enough statements, got %d", len(program.Statements))
 		}
+
 		stmt := program.Statements[0]
 		if !checkLetStatement(t, stmt, tt.expectedIdentifier) {
 			return
 		}
-		// TODO: implement test for stmt.Value
+
+		val := stmt.(*ast.LetStatement).Value
+		if !checkLiteralExpression(t, val, tt.expectedValue) {
+			return
+		}
 	}
 }
 
@@ -41,6 +48,8 @@ func TestReturnStatements(t *testing.T) {
 		expectedValue interface{}
 	}{
 		{"return 5;", 5},
+		{"return true;", true},
+		{"return foobar;", "foobar"},
 	}
 
 	for _, tt := range tests {
