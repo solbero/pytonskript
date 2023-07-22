@@ -37,6 +37,31 @@ func TestEvalIntegerExpression(t *testing.T) {
 	}
 }
 
+func TestIfElseExpression(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected interface{}
+	}{
+		{"if (true) { 10 }", 10},
+		{"if (false) { 10 }", nil},
+		{"if (1) { 10 }", 10}, // 1 is truthy
+		{"if (1 < 2) { 10 }", 10},
+		{"if (1 > 2) { 10 }", nil},
+		{"if (1 > 2) { 10 } else { 20 }", 20},
+		{"if (1 < 2) { 10 } else { 20 }", 10},
+	}
+
+	for _, tt := range tests {
+		evaluated := testEval(tt.input)
+		integer, ok := tt.expected.(int)
+		if ok {
+			checkIntegerObject(t, evaluated, int64(integer))
+		} else {
+			checkNullObject(t, evaluated)
+		}
+	}
+}
+
 func TestEvalBooleanExpression(t *testing.T) {
 	tests := []struct {
 		input    string
@@ -95,11 +120,20 @@ func testEval(input string) object.Object {
 	return Eval(program)
 }
 
+func checkNullObject(t *testing.T, obj object.Object) bool {
+	t.Helper()
+	if obj != NULL {
+		t.Errorf("object is not NULL, got %T (%+v)", obj, obj)
+		return false
+	}
+	return true
+}
+
 func checkIntegerObject(t *testing.T, obj object.Object, expected int64) bool {
 	t.Helper()
 	result, ok := obj.(*object.Integer)
 	if !ok {
-		t.Errorf("object is not Integer, got %T(%+v)", obj, obj)
+		t.Errorf("object is not Integer, got %T (%+v)", obj, obj)
 		return false
 	}
 	if result.Value != expected {
@@ -113,7 +147,7 @@ func checkBooleanObject(t *testing.T, obj object.Object, expected bool) bool {
 	t.Helper()
 	result, ok := obj.(*object.Boolean)
 	if !ok {
-		t.Errorf("object is not Boolean, got %T(%+v)", obj, obj)
+		t.Errorf("object is not Boolean, got %T (%+v)", obj, obj)
 		return false
 	}
 	if result.Value != expected {
