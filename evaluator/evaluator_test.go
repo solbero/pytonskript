@@ -123,6 +123,8 @@ func TestReturnStatements(t *testing.T) {
 		{"return 2 * 5; 9;", 10},
 		{"9; return 2 * 5; 9;", 10}, // 9; is ignored
 		{"if (10 > 1) {if (10 > 1) {return 10;} return 1}", 10},
+		{"let f = fn(x) {return x; x + 10;}; f(10);", 10}, // x + 10; is ignored
+		{"let f = fn(x) {let result = x + 10; return result; return 10;}; f(10);", 20}, // return 10; is ignored
 	}
 
 	for _, tt := range tests {
@@ -145,6 +147,59 @@ func TestLetStatements(t *testing.T) {
 	for _, tt := range tests {
 		checkIntegerObject(t, testEval(tt.input), tt.expected)
 	}
+}
+
+func TestFunctionObject(t *testing.T) {
+	input := "fn(x) { x + 2; };"
+	evaluated := testEval(input)
+
+	fn, ok := evaluated.(*object.Function)
+	if !ok {
+		t.Fatalf("object is not Function, got %T (%+v)", evaluated, evaluated)
+	}
+
+	if len(fn.Parameters) != 1 {
+		t.Fatalf("function has wrong parameters, got %d, want 1", len(fn.Parameters))
+	}
+
+	if fn.Parameters[0].String() != "x" {
+		t.Fatalf("parameter is not 'x', got %q", fn.Parameters[0])
+	}
+
+	expectedBody := "(x + 2)"
+	if fn.Body.String() != expectedBody {
+		t.Fatalf("body is not %q, got %q", expectedBody, fn.Body.String())
+	}
+}
+
+func TestFunctionApplication(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected int64
+	}{
+		{"let identity = fn(x) { x; }; identity(5);", 5},
+		{"let identity = fn(x) { return x; }; identity(5);", 5}, // return statement
+		{"let double = fn(x) { x * 2; }; double(5);", 10},
+		{"let add = fn(x, y) { x + y; }; add(5, 5);", 10},
+		{"let add = fn(x, y) { x + y; }; add(5 + 5, add(5, 5));", 20}, // nested function calls
+		{"fn(x) { x; }(5)", 5},                                        // immediately invoked function expression
+	}
+
+	for _, tt := range tests {
+		checkIntegerObject(t, testEval(tt.input), tt.expected)
+	}
+}
+
+func TestClosures(t *testing.T) {
+	input := `
+	let newAdder = fn(x) {
+		fn(y) { x + y };
+	};
+
+	let addTwo = newAdder(2);
+	addTwo(2);
+	`
+	checkIntegerObject(t, testEval(input), 4)
 }
 
 func TestErrorHandling(t *testing.T) {
