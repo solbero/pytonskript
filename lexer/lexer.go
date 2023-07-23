@@ -2,12 +2,19 @@
 
 package lexer
 
-import "monkey/token"
+import (
+	"bytes"
+	"monkey/token"
+)
 
 func New(input string) *Lexer {
 	l := &Lexer{input: input}
 	l.readChar()
 	return l
+}
+
+func newToken(tokenType token.TokenType, ch byte) token.Token {
+	return token.Token{Type: tokenType, Literal: string(ch)}
 }
 
 type Lexer struct {
@@ -65,6 +72,9 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.LBRACE, l.ch)
 	case '}':
 		tok = newToken(token.RBRACE, l.ch)
+	case '"':
+		tok.Type = token.STRING
+		tok.Literal = l.readString()
 	case 0:
 		tok.Literal = ""
 		tok.Type = token.EOF
@@ -121,14 +131,39 @@ func (l *Lexer) readNumber() string {
 	return l.input[position:l.position]
 }
 
-func (l *Lexer) skipWhitespace() {
-	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
+func (l *Lexer) readString() string {
+	buff := bytes.Buffer{}
+	l.readChar() // skip the first '"'
+
+	for {
+		if l.ch == '\\' { // skip the escape character
+			switch l.peekChar() {
+			case '"':
+				buff.WriteByte('"')
+			case 'n':
+				buff.WriteByte('\n')
+			case 't':
+				buff.WriteByte('\t')
+			case 'r':
+				buff.WriteByte('\r')
+			case '\\':
+				buff.WriteByte('\\')
+			}
+			l.readChar()
+			l.readChar()
+			continue
+		}
+
+		if l.ch == '"' || l.ch == 0 {
+			break
+		}
+
+		buff.WriteByte(l.ch)
 		l.readChar()
 	}
-}
 
-func newToken(tokenType token.TokenType, ch byte) token.Token {
-	return token.Token{Type: tokenType, Literal: string(ch)}
+	l.readChar() // skip the last '"'
+	return buff.String()
 }
 
 func isLetter(ch byte) bool {
@@ -139,4 +174,10 @@ func isLetter(ch byte) bool {
 
 func isDigit(ch byte) bool {
 	return '0' <= ch && ch <= '9'
+}
+
+func (l *Lexer) skipWhitespace() {
+	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
+		l.readChar()
+	}
 }

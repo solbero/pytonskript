@@ -254,6 +254,20 @@ func (fl *FunctionLiteral) String() string {
 	return out.String()
 }
 
+type IntegerLiteral struct {
+	Token token.Token
+	Value int64
+}
+
+type StringLiteral struct {
+	Token token.Token
+	Value string
+}
+
+func (sl *StringLiteral) expressionNode()      {}
+func (sl *StringLiteral) TokenLiteral() string { return sl.Token.Literal }
+func (sl *StringLiteral) String() string       { return sl.Token.Literal }
+
 type Boolean struct {
 	Token token.Token
 	Value bool
@@ -262,8 +276,3 @@ type Boolean struct {
 func (b *Boolean) expressionNode()      {}
 func (b *Boolean) TokenLiteral() string { return b.Token.Literal }
 func (b *Boolean) String() string       { return b.Token.Literal }
-
-type IntegerLiteral struct {
-	Token token.Token
-	Value int64
-}
