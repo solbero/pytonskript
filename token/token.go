@@ -3,6 +3,7 @@
 package token
 
 const (
+	// Special tokens
 	ILLEGAL = "ILLEGAL"
 	EOF     = "EOF"
 
@@ -40,13 +41,6 @@ const (
 	RETURN   = "RETURN"
 )
 
-type TokenType string
-
-type Token struct {
-	Type    TokenType
-	Literal string
-}
-
 var keywords = map[string]TokenType{
 	"fn":     FUNCTION,
 	"let":    LET,
@@ -55,6 +49,13 @@ var keywords = map[string]TokenType{
 	"if":     IF,
 	"else":   ELSE,
 	"return": RETURN,
+}
+
+type TokenType string
+
+type Token struct {
+	Type    TokenType
+	Literal string
 }
 
 func LookupIdent(ident string) TokenType {
