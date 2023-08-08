@@ -34,8 +34,8 @@ func (l *Lexer) NextToken() token.Token {
 		if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
-			liteal := string(ch) + string(l.ch)
-			tok = token.Token{Type: token.EQ, Literal: liteal}
+			literal := string(ch) + string(l.ch)
+			tok = token.Token{Type: token.EQ, Literal: literal}
 		} else {
 			tok = newToken(token.ASSIGN, l.ch)
 		}
@@ -162,7 +162,6 @@ func (l *Lexer) readString() string {
 		l.readChar()
 	}
 
-	l.readChar() // skip the last '"'
 	return buff.String()
 }
 
