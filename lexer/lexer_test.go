@@ -34,7 +34,11 @@ if (5 < 10) {
 "hello\t\t\tworld"
 "hello\\world"
 "hello\bworld"
+
+[1, 2];
+
 len("123")
+
 `
 
 	tests := []struct {
@@ -121,6 +125,12 @@ len("123")
 		{token.STRING, "hello\t\t\tworld"},
 		{token.STRING, "hello\\world"},
 		{token.STRING, "helloworld"},
+		{token.LBRACKET, "["},
+		{token.INT, "1"},
+		{token.COMMA, ","},
+		{token.INT, "2"},
+		{token.RBRACKET, "]"},
+		{token.SEMICOLON, ";"},
 		{token.IDENT, "len"},
 		{token.LPAREN, "("},
 		{token.STRING, "123"},

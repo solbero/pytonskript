@@ -265,6 +265,53 @@ func TestBuiltinFunctions(t *testing.T) {
 	}
 }
 
+func TestArrayLiterals(t *testing.T) {
+	input := "[1, 2 * 2, 3 + 3]"
+
+	evaluated := testEval(input)
+	result, ok := evaluated.(*object.Array)
+	if !ok {
+		t.Fatalf("object is not Array, got %T (%+v)", evaluated, evaluated)
+	}
+
+	if len(result.Elements) != 3 {
+		t.Fatalf("array has wrong num of elements, got %d", len(result.Elements))
+	}
+
+	checkIntegerObject(t, result.Elements[0], 1)
+	checkIntegerObject(t, result.Elements[1], 4)
+	checkIntegerObject(t, result.Elements[2], 6)
+}
+
+func TestArrayIndexExpressions(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected interface{}
+	}{
+		{input: "[1, 2, 3][0]", expected: 1},
+		{input: "[1, 2, 3][1]", expected: 2},
+		{input: "[1, 2, 3][2]", expected: 3},
+		{input: "let i = 0; [1][i];", expected: 1},
+		{input: "[1, 2, 3][1 + 1];", expected: 3},
+		{input: "let myArray = [1, 2, 3]; myArray[2];", expected: 3},
+		{input: "let myArray = [1, 2, 3]; myArray[0] + myArray[1] + myArray[2];", expected: 6},
+		{input: "let myArray = [1, 2, 3]; let i = myArray[0]; myArray[i]", expected: 2},
+		{input: "[1, 2, 3][3]", expected: nil},
+		{input: "[1, 2, 3][-1]", expected: nil},
+	}
+
+	for _, tt := range tests {
+		evaluated := testEval(tt.input)
+		integer, ok := tt.expected.(int)
+		if ok {
+			checkIntegerObject(t, evaluated, int64(integer))
+			continue
+		}
+
+		checkNullObject(t, evaluated)
+	}
+}
+
 func TestErrorHandling(t *testing.T) {
 	tests := []struct {
 		input       string
