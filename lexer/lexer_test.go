@@ -29,6 +29,7 @@ if (5 < 10) {
 
 "foobar"
 "foo bar"
+
 "hello \"world\""
 "hello\nworld"
 "hello\t\t\tworld"
@@ -36,6 +37,7 @@ if (5 < 10) {
 "hello\bworld"
 
 [1, 2];
+{"foo": "bar"};
 
 len("123")
 
@@ -130,6 +132,12 @@ len("123")
 		{token.COMMA, ","},
 		{token.INT, "2"},
 		{token.RBRACKET, "]"},
+		{token.SEMICOLON, ";"},
+		{token.LBRACE, "{"},
+		{token.STRING, "foo"},
+		{token.COLON, ":"},
+		{token.STRING, "bar"},
+		{token.RBRACE, "}"},
 		{token.SEMICOLON, ";"},
 		{token.IDENT, "len"},
 		{token.LPAREN, "("},
