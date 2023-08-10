@@ -244,6 +244,21 @@ func TestBuiltinFunctions(t *testing.T) {
 		{input: `len("hello world")`, expected: 11},
 		{input: `len(1)`, expected: "argument to 'len' not supported, got INTEGER"},
 		{input: `len("one", "two")`, expected: "wrong number of arguments, got 2, want 1"},
+		{input: `first([1, 2, 3])`, expected: 1},
+		{input: `first([])`, expected: nil},
+		{input: `first(1)`, expected: "argument to 'first' must be ARRAY, got INTEGER"},
+		{input: `first([1, 2], [3, 4])`, expected: "wrong number of arguments, got 2, want 1"},
+		{input: `last([1, 2, 3])`, expected: 3},
+		{input: `last([])`, expected: nil},
+		{input: `last(1)`, expected: "argument to 'last' must be ARRAY, got INTEGER"},
+		{input: `last([1, 2], [3, 4])`, expected: "wrong number of arguments, got 2, want 1"},
+		{input: `rest([1, 2, 3])`, expected: []int64{2, 3}},
+		{input: `rest([])`, expected: nil},
+		{input: `rest(1)`, expected: "argument to 'rest' must be ARRAY, got INTEGER"},
+		{input: `rest([1, 2], [3, 4])`, expected: "wrong number of arguments, got 2, want 1"},
+		{input: `push([], 1)`, expected: []int64{1}},
+		{input: `push(1, 1)`, expected: "argument to 'push' must be ARRAY, got INTEGER"},
+		{input: `push([1, 2], 1, 2)`, expected: "wrong number of arguments, got 3, want 2"},
 	}
 
 	for _, tt := range tests {
