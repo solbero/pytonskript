@@ -4,7 +4,7 @@ package lexer
 
 import (
 	"bytes"
-	"monkey/token"
+	"github.com/solbero/monkey/token"
 )
 
 func New(input string) *Lexer {

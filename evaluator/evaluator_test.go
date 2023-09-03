@@ -3,9 +3,9 @@
 package evaluator
 
 import (
-	"monkey/lexer"
-	"monkey/object"
-	"monkey/parser"
+	"github.com/solbero/monkey/lexer"
+	"github.com/solbero/monkey/object"
+	"github.com/solbero/monkey/parser"
 	"testing"
 )
 

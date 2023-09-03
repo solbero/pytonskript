@@ -4,7 +4,7 @@ package main
 
 import (
 	"fmt"
-	"monkey/repl"
+	"github.com/solbero/monkey/repl"
 	"os"
 	"os/user"
 )

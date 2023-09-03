@@ -4,9 +4,9 @@ package parser
 
 import (
 	"fmt"
-	"monkey/ast"
-	"monkey/lexer"
-	"monkey/token"
+	"github.com/solbero/monkey/ast"
+	"github.com/solbero/monkey/lexer"
+	"github.com/solbero/monkey/token"
 	"strconv"
 )
 

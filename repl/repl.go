@@ -5,11 +5,11 @@ package repl
 import (
 	"bufio"
 	"fmt"
+	"github.com/solbero/monkey/evaluator"
+	"github.com/solbero/monkey/lexer"
+	"github.com/solbero/monkey/object"
+	"github.com/solbero/monkey/parser"
 	"io"
-	"monkey/evaluator"
-	"monkey/lexer"
-	"monkey/object"
-	"monkey/parser"
 )
 
 const PROMPT = ">> "

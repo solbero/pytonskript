@@ -4,8 +4,8 @@ package parser
 
 import (
 	"fmt"
-	"monkey/ast"
-	"monkey/lexer"
+	"github.com/solbero/monkey/ast"
+	"github.com/solbero/monkey/lexer"
 	"testing"
 )
 

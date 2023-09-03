@@ -4,7 +4,7 @@ package ast
 
 import (
 	"bytes"
-	"monkey/token"
+	"github.com/solbero/monkey/token"
 	"strings"
 )
 

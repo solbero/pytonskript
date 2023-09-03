@@ -6,7 +6,7 @@ import (
 	"bytes"
 	"fmt"
 	"hash/fnv"
-	"monkey/ast"
+	"github.com/solbero/monkey/ast"
 	"strings"
 )
 

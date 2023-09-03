@@ -4,8 +4,8 @@ package evaluator
 
 import (
 	"fmt"
-	"monkey/ast"
-	"monkey/object"
+	"github.com/solbero/monkey/ast"
+	"github.com/solbero/monkey/object"
 )
 
 var (

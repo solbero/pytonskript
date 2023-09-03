@@ -3,7 +3,7 @@
 package ast
 
 import (
-	"monkey/token"
+	"github.com/solbero/monkey/token"
 	"testing"
 )
 
