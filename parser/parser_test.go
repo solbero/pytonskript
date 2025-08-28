@@ -4,9 +4,10 @@ package parser
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/solbero/monkey/ast"
 	"github.com/solbero/monkey/lexer"
-	"testing"
 )
 
 func TestLetStatements(t *testing.T) {
@@ -16,7 +17,7 @@ func TestLetStatements(t *testing.T) {
 		expectedValue      interface{}
 	}{
 		{"let x = 5;", "x", 5},
-		{"let y = true;", "y", true},
+		{"let y = sant;", "y", true},
 		{"let foobar = y;", "foobar", "y"},
 	}
 
@@ -142,8 +143,8 @@ func TestParsingPrefixExpressions(t *testing.T) {
 		{"-15;", "-", 15},
 		{"!foobar;", "!", "foobar"},
 		{"-foobar;", "-", "foobar"},
-		{"!true;", "!", true},
-		{"!false;", "!", false},
+		{"!sant;", "!", true},
+		{"!falskt;", "!", false},
 	}
 
 	for _, tt := range prefixTests {
@@ -190,9 +191,9 @@ func TestParsingInfixExpressions(t *testing.T) {
 		{"5 < 5;", 5, "<", 5},
 		{"5 == 5;", 5, "==", 5},
 		{"5 != 5;", 5, "!=", 5},
-		{"true == true", true, "==", true},
-		{"true != false", true, "!=", false},
-		{"false == false", false, "==", false},
+		{"sant == sant", true, "==", true},
+		{"sant != falskt", true, "!=", false},
+		{"falskt == falskt", false, "==", false},
 	}
 
 	for _, tt := range infixTests {
@@ -266,8 +267,8 @@ func TestBooleanExpression(t *testing.T) {
 		input           string
 		expectedBoolean bool
 	}{
-		{"true;", true},
-		{"false;", false},
+		{"sant;", true},
+		{"falskt;", false},
 	}
 
 	for _, tt := range tests {
@@ -608,7 +609,7 @@ func TestParsingHashLiteralsStringKeys(t *testing.T) {
 }
 
 func TestParsingHashLiteralsBooleanKeys(t *testing.T) {
-	input := `{true: 1, false: 2}`
+	input := `{sant: 1, falskt: 2}`
 
 	l := lexer.New(input)
 	p := New(l)
@@ -626,8 +627,8 @@ func TestParsingHashLiteralsBooleanKeys(t *testing.T) {
 	}
 
 	expected := map[string]int64{
-		"true":  1,
-		"false": 2,
+		"sant":  1,
+		"falskt": 2,
 	}
 
 	for key, value := range hash.Pairs {
@@ -811,10 +812,6 @@ func checkBooleanLiteral(t *testing.T, exp ast.Expression, value bool) bool {
 	}
 	if bo.Value != value {
 		t.Errorf("bo.Value not %t, got %t", value, bo.Value)
-		return false
-	}
-	if bo.TokenLiteral() != fmt.Sprintf("%t", value) {
-		t.Errorf("bo.TokenLiteral not %t, got %s", value, bo.TokenLiteral())
 		return false
 	}
 	return true

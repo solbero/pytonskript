@@ -3,10 +3,11 @@
 package evaluator
 
 import (
+	"testing"
+
 	"github.com/solbero/monkey/lexer"
 	"github.com/solbero/monkey/object"
 	"github.com/solbero/monkey/parser"
-	"testing"
 )
 
 func TestEvalIntegerExpression(t *testing.T) {
@@ -42,8 +43,8 @@ func TestIfElseExpression(t *testing.T) {
 		input    string
 		expected interface{}
 	}{
-		{"if (true) { 10 }", 10},
-		{"if (false) { 10 }", nil},
+		{"if (sant) { 10 }", 10},
+		{"if (falskt) { 10 }", nil},
 		{"if (1) { 10 }", 10}, // 1 is truthy
 		{"if (1 < 2) { 10 }", 10},
 		{"if (1 > 2) { 10 }", nil},
@@ -67,8 +68,8 @@ func TestEvalBooleanExpression(t *testing.T) {
 		input    string
 		expected bool
 	}{
-		{"true", true},
-		{"false", false},
+		{"sant", true},
+		{"falskt", false},
 		{"1 < 2", true},
 		{"1 > 2", false},
 		{"1 < 1", false},
@@ -77,15 +78,15 @@ func TestEvalBooleanExpression(t *testing.T) {
 		{"1 != 1", false},
 		{"1 == 2", false},
 		{"1 != 2", true},
-		{"true == true", true},
-		{"false == false", true},
-		{"true == false", false},
-		{"true != false", true},
-		{"false != true", true},
-		{"(1 < 2) == true", true},
-		{"(1 < 2) == false", false},
-		{"(1 > 2) == true", false},
-		{"(1 > 2) == false", true},
+		{"sant == sant", true},
+		{"falskt == falskt", true},
+		{"sant == falskt", false},
+		{"sant != falskt", true},
+		{"falskt != sant", true},
+		{"(1 < 2) == sant", true},
+		{"(1 < 2) == falskt", false},
+		{"(1 > 2) == sant", false},
+		{"(1 > 2) == falskt", true},
 		{`"hello" == "hello"`, true},
 		{`"hello" == "goodbye"`, false},
 		{`"hello" != "hello"`, false},
@@ -103,11 +104,11 @@ func TestBangOperator(t *testing.T) {
 		input    string
 		expected bool
 	}{
-		{"!true", false},
-		{"!false", true},
+		{"!sant", false},
+		{"!falskt", true},
 		{"!5", false}, // 5 is truthy
-		{"!!true", true},
-		{"!!false", false},
+		{"!!sant", true},
+		{"!!falskt", false},
 		{"!!5", true}, // 5 is truthy
 	}
 
@@ -334,8 +335,8 @@ func TestHashLiterals(t *testing.T) {
 		two: 1 + 1,
 		"thr" + "ee": 6 / 2,
 		4: 4,
-		true: 5,
-		false: 6
+		sant: 5,
+		falskt: 6
 	}`
 
 	evaluated := testEval(input)
@@ -376,8 +377,8 @@ func TestHashIndexExpressions(t *testing.T) {
 		{input: `{"foo": 5}["bar"]`, expected: nil},
 		{input: `let key = "foo"; {"foo": 5}[key]`, expected: 5},
 		{input: `{5: 5}[5]`, expected: 5},
-		{input: `{true: 5}[true]`, expected: 5},
-		{input: `{false: 5}[false]`, expected: 5},
+		{input: `{sant: 5}[sant]`, expected: 5},
+		{input: `{falskt: 5}[falskt]`, expected: 5},
 	}
 
 	for _, tt := range tests {
@@ -397,13 +398,13 @@ func TestErrorHandling(t *testing.T) {
 		input       string
 		expectedMsg string
 	}{
-		{"5 + true;", "type mismatch: INTEGER + BOOLEAN"},
-		{"5 + true; 5;", "type mismatch: INTEGER + BOOLEAN"},
-		{"-true", "unknown operator: -BOOLEAN"},
-		{"true + false;", "unknown operator: BOOLEAN + BOOLEAN"},
-		{"5; true + false; 5", "unknown operator: BOOLEAN + BOOLEAN"},
-		{"if (10 > 1) { true + false; }", "unknown operator: BOOLEAN + BOOLEAN"},
-		{"if (10 > 1) { if (10 > 1) { return true + false; } return 1 }", "unknown operator: BOOLEAN + BOOLEAN"},
+		{"5 + sant;", "type mismatch: INTEGER + BOOLEAN"},
+		{"5 + sant; 5;", "type mismatch: INTEGER + BOOLEAN"},
+		{"-sant", "unknown operator: -BOOLEAN"},
+		{"sant + falskt;", "unknown operator: BOOLEAN + BOOLEAN"},
+		{"5; sant + falskt; 5", "unknown operator: BOOLEAN + BOOLEAN"},
+		{"if (10 > 1) { sant + falskt; }", "unknown operator: BOOLEAN + BOOLEAN"},
+		{"if (10 > 1) { if (10 > 1) { return sant + falskt; } return 1 }", "unknown operator: BOOLEAN + BOOLEAN"},
 		{"foobar", "identifier not found: foobar"},
 		{`"Hello" - "World!"`, "unknown operator: STRING - STRING"},
 		{`{"name": "Monkey"}[fn(x) { x }];`, "unusable as hash key: FUNCTION"},
