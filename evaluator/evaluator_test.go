@@ -43,13 +43,13 @@ func TestIfElseExpression(t *testing.T) {
 		input    string
 		expected interface{}
 	}{
-		{"if (sant) { 10 }", 10},
-		{"if (falskt) { 10 }", nil},
-		{"if (1) { 10 }", 10}, // 1 is truthy
-		{"if (1 < 2) { 10 }", 10},
-		{"if (1 > 2) { 10 }", nil},
-		{"if (1 > 2) { 10 } else { 20 }", 20},
-		{"if (1 < 2) { 10 } else { 20 }", 10},
+		{"hvis (sant) { 10 }", 10},
+		{"hvis (falskt) { 10 }", nil},
+		{"hvis (1) { 10 }", 10}, // 1 is truthy
+		{"hvis (1 < 2) { 10 }", 10},
+		{"hvis (1 > 2) { 10 }", nil},
+		{"hvis (1 > 2) { 10 } ellers { 20 }", 20},
+		{"hvis (1 < 2) { 10 } ellers { 20 }", 10},
 	}
 
 	for _, tt := range tests {
@@ -123,13 +123,13 @@ func TestReturnStatements(t *testing.T) {
 		input    string
 		expected int64
 	}{
-		{"return 10;", 10},
-		{"return 10; 9;", 10}, // 9; is ignored
-		{"return 2 * 5; 9;", 10},
-		{"9; return 2 * 5; 9;", 10}, // 9; is ignored
-		{"if (10 > 1) {if (10 > 1) {return 10;} return 1}", 10},
-		{"let f = fn(x) {return x; x + 10;}; f(10);", 10}, // x + 10; is ignored
-		{"let f = fn(x) {let result = x + 10; return result; return 10;}; f(10);", 20}, // return 10; is ignored
+		{"returner 10;", 10},
+		{"returner 10; 9;", 10}, // 9; is ignored
+		{"returner 2 * 5; 9;", 10},
+		{"9; returner 2 * 5; 9;", 10}, // 9; is ignored
+		{"hvis (10 > 1) {hvis (10 > 1) {returner 10;} returner 1}", 10},
+		{"la f = funksjon(x) {returner x; x + 10;}; f(10);", 10}, // x + 10; is ignored
+		{"la f = funksjon(x) {la result = x + 10; returner result; returner 10;}; f(10);", 20}, // return 10; is ignored
 	}
 
 	for _, tt := range tests {
@@ -143,10 +143,10 @@ func TestLetStatements(t *testing.T) {
 		input    string
 		expected int64
 	}{
-		{"let a = 5; a;", 5},
-		{"let a = 5 * 5; a;", 25},
-		{"let a = 5; let b = a; b;", 5},
-		{"let a = 5; let b = a; let c = a + b + 5; c;", 15},
+		{"la a = 5; a;", 5},
+		{"la a = 5 * 5; a;", 25},
+		{"la a = 5; la b = a; b;", 5},
+		{"la a = 5; la b = a; la c = a + b + 5; c;", 15},
 	}
 
 	for _, tt := range tests {
@@ -155,7 +155,7 @@ func TestLetStatements(t *testing.T) {
 }
 
 func TestFunctionObject(t *testing.T) {
-	input := "fn(x) { x + 2; };"
+	input := "funksjon(x) { x + 2; };"
 	evaluated := testEval(input)
 
 	fn, ok := evaluated.(*object.Function)
@@ -182,12 +182,12 @@ func TestFunctionApplication(t *testing.T) {
 		input    string
 		expected int64
 	}{
-		{"let identity = fn(x) { x; }; identity(5);", 5},
-		{"let identity = fn(x) { return x; }; identity(5);", 5}, // return statement
-		{"let double = fn(x) { x * 2; }; double(5);", 10},
-		{"let add = fn(x, y) { x + y; }; add(5, 5);", 10},
-		{"let add = fn(x, y) { x + y; }; add(5 + 5, add(5, 5));", 20}, // nested function calls
-		{"fn(x) { x; }(5)", 5},                                        // immediately invoked function expression
+		{"la identity = funksjon(x) { x; }; identity(5);", 5},
+		{"la identity = funksjon(x) { returner x; }; identity(5);", 5}, // return statement
+		{"la double = funksjon(x) { x * 2; }; double(5);", 10},
+		{"la add = funksjon(x, y) { x + y; }; add(5, 5);", 10},
+		{"la add = funksjon(x, y) { x + y; }; add(5 + 5, add(5, 5));", 20}, // nested function calls
+		{"funksjon(x) { x; }(5)", 5},                                        // immediately invoked function expression
 	}
 
 	for _, tt := range tests {
@@ -197,11 +197,11 @@ func TestFunctionApplication(t *testing.T) {
 
 func TestClosures(t *testing.T) {
 	input := `
-	let newAdder = fn(x) {
-		fn(y) { x + y };
+	la newAdder = funksjon(x) {
+		funksjon(y) { x + y };
 	};
 
-	let addTwo = newAdder(2);
+	la addTwo = newAdder(2);
 	addTwo(2);
 	`
 	checkIntegerObject(t, testEval(input), 4)
@@ -307,11 +307,11 @@ func TestArrayIndexExpressions(t *testing.T) {
 		{input: "[1, 2, 3][0]", expected: 1},
 		{input: "[1, 2, 3][1]", expected: 2},
 		{input: "[1, 2, 3][2]", expected: 3},
-		{input: "let i = 0; [1][i];", expected: 1},
+		{input: "la i = 0; [1][i];", expected: 1},
 		{input: "[1, 2, 3][1 + 1];", expected: 3},
-		{input: "let myArray = [1, 2, 3]; myArray[2];", expected: 3},
-		{input: "let myArray = [1, 2, 3]; myArray[0] + myArray[1] + myArray[2];", expected: 6},
-		{input: "let myArray = [1, 2, 3]; let i = myArray[0]; myArray[i]", expected: 2},
+		{input: "la myArray = [1, 2, 3]; myArray[2];", expected: 3},
+		{input: "la myArray = [1, 2, 3]; myArray[0] + myArray[1] + myArray[2];", expected: 6},
+		{input: "la myArray = [1, 2, 3]; la i = myArray[0]; myArray[i]", expected: 2},
 		{input: "[1, 2, 3][3]", expected: nil},
 		{input: "[1, 2, 3][-1]", expected: nil},
 	}
@@ -329,7 +329,7 @@ func TestArrayIndexExpressions(t *testing.T) {
 }
 
 func TestHashLiterals(t *testing.T) {
-	input := `let two = "two";
+	input := `la two = "two";
 	{
 		"one": 10 - 9,
 		two: 1 + 1,
@@ -375,7 +375,7 @@ func TestHashIndexExpressions(t *testing.T) {
 	}{
 		{input: `{"foo": 5}["foo"]`, expected: 5},
 		{input: `{"foo": 5}["bar"]`, expected: nil},
-		{input: `let key = "foo"; {"foo": 5}[key]`, expected: 5},
+		{input: `la key = "foo"; {"foo": 5}[key]`, expected: 5},
 		{input: `{5: 5}[5]`, expected: 5},
 		{input: `{sant: 5}[sant]`, expected: 5},
 		{input: `{falskt: 5}[falskt]`, expected: 5},
@@ -403,11 +403,11 @@ func TestErrorHandling(t *testing.T) {
 		{"-sant", "unknown operator: -BOOLEAN"},
 		{"sant + falskt;", "unknown operator: BOOLEAN + BOOLEAN"},
 		{"5; sant + falskt; 5", "unknown operator: BOOLEAN + BOOLEAN"},
-		{"if (10 > 1) { sant + falskt; }", "unknown operator: BOOLEAN + BOOLEAN"},
-		{"if (10 > 1) { if (10 > 1) { return sant + falskt; } return 1 }", "unknown operator: BOOLEAN + BOOLEAN"},
+		{"hvis (10 > 1) { sant + falskt; }", "unknown operator: BOOLEAN + BOOLEAN"},
+		{"hvis (10 > 1) { hvis (10 > 1) { returner sant + falskt; } returner 1 }", "unknown operator: BOOLEAN + BOOLEAN"},
 		{"foobar", "identifier not found: foobar"},
 		{`"Hello" - "World!"`, "unknown operator: STRING - STRING"},
-		{`{"name": "Monkey"}[fn(x) { x }];`, "unusable as hash key: FUNCTION"},
+		{`{"name": "Monkey"}[funksjon(x) { x }];`, "unusable as hash key: FUNCTION"},
 	}
 
 	for _, tt := range tests {

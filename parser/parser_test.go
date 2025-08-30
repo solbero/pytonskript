@@ -16,9 +16,9 @@ func TestLetStatements(t *testing.T) {
 		expectedIdentifier string
 		expectedValue      interface{}
 	}{
-		{"let x = 5;", "x", 5},
-		{"let y = sant;", "y", true},
-		{"let foobar = y;", "foobar", "y"},
+		{"la x = 5;", "x", 5},
+		{"la y = sant;", "y", true},
+		{"la foobar = y;", "foobar", "y"},
 	}
 
 	for _, tt := range tests {
@@ -48,9 +48,9 @@ func TestReturnStatements(t *testing.T) {
 		input         string
 		expectedValue interface{}
 	}{
-		{"return 5;", 5},
-		{"return true;", true},
-		{"return foobar;", "foobar"},
+		{"returner 5;", 5},
+		{"returner sant;", true},
+		{"returner foobar;", "foobar"},
 	}
 
 	for _, tt := range tests {
@@ -68,7 +68,7 @@ func TestReturnStatements(t *testing.T) {
 		if !ok {
 			t.Fatalf("stmt not *ast.ReturnStatement, got %T", stmt)
 		}
-		if returnStmt.TokenLiteral() != "return" {
+		if returnStmt.TokenLiteral() != "returner" {
 			t.Fatalf("returnStmt.TokenLiteral not 'return', got %q", returnStmt.TokenLiteral())
 		}
 		// TODO: implement test for returnStmt.Value
@@ -297,7 +297,7 @@ func TestBooleanExpression(t *testing.T) {
 }
 
 func TestIfExpression(t *testing.T) {
-	input := `if (x < y) { x }`
+	input := `hvis (x < y) { x }`
 
 	l := lexer.New(input)
 	p := New(l)
@@ -341,7 +341,7 @@ func TestIfExpression(t *testing.T) {
 }
 
 func TestIfElseExpression(t *testing.T) {
-	input := `if (x < y) { x } else { y }`
+	input := `hvis (x < y) { x } ellers { y }`
 
 	l := lexer.New(input)
 	p := New(l)
@@ -424,7 +424,7 @@ func TestStringLiteralExpression(t *testing.T) {
 }
 
 func TestFunctionLiteralParsing(t *testing.T) {
-	input := `fn(x, y) { x + y; }`
+	input := `funksjon(x, y) { x + y; }`
 
 	l := lexer.New(input)
 	p := New(l)
@@ -469,9 +469,9 @@ func TestFunctionParameterParsing(t *testing.T) {
 		input          string
 		expectedParams []string
 	}{
-		{input: "fn() {};", expectedParams: []string{}},
-		{input: "fn(x) {};", expectedParams: []string{"x"}},
-		{input: "fn(x, y, z) {};", expectedParams: []string{"x", "y", "z"}},
+		{input: "funksjon() {};", expectedParams: []string{}},
+		{input: "funksjon(x) {};", expectedParams: []string{"x"}},
+		{input: "funksjon(x, y, z) {};", expectedParams: []string{"x", "y", "z"}},
 	}
 
 	for _, tt := range tests {
@@ -744,8 +744,8 @@ func TestParsingEmptyHashLiteral(t *testing.T) {
 
 func checkLetStatement(t *testing.T, s ast.Statement, name string) bool {
 	t.Helper()
-	if s.TokenLiteral() != "let" {
-		t.Errorf("s.TokenLiteral not 'let', got %q", s.TokenLiteral())
+	if s.TokenLiteral() != "la" {
+		t.Errorf("s.TokenLiteral not 'la', got %q", s.TokenLiteral())
 		return false
 	}
 

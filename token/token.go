@@ -46,13 +46,13 @@ const (
 )
 
 var keywords = map[string]TokenType{
-	"fn":     FUNCTION,
-	"let":    LET,
-	"sant":   TRUE,
-	"falskt":  FALSE,
-	"if":     IF,
-	"else":   ELSE,
-	"return": RETURN,
+	"funksjon": FUNCTION,
+	"la":       LET,
+	"sant":     TRUE,
+	"falskt":   FALSE,
+	"hvis":     IF,
+	"ellers":   ELSE,
+	"returner": RETURN,
 }
 
 type TokenType string

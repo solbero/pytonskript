@@ -7,21 +7,21 @@ import (
 )
 
 func TestNextToken(t *testing.T) {
-	input := `let five = 5;
-let ten = 10;
+	input := `la five = 5;
+la ten = 10;
 
-let add = fn(x, y) {
+la add = funksjon(x, y) {
 	x + y;
 };
 
-let result = add(five, ten);
+la result = add(five, ten);
 !-/*5;
 5 < 10 > 5;
 
-if (5 < 10) {
-	return sant;
-} else {
-	return falskt;
+hvis (5 < 10) {
+	returner sant;
+} ellers {
+	returner falskt;
 }
 
 10 == 10;
@@ -47,20 +47,20 @@ len("123")
 		expectedType     token.TokenType
 		expectedLiterial string
 	}{
-		{token.LET, "let"},
+		{token.LET, "la"},
 		{token.IDENT, "five"},
 		{token.ASSIGN, "="},
 		{token.INT, "5"},
 		{token.SEMICOLON, ";"},
-		{token.LET, "let"},
+		{token.LET, "la"},
 		{token.IDENT, "ten"},
 		{token.ASSIGN, "="},
 		{token.INT, "10"},
 		{token.SEMICOLON, ";"},
-		{token.LET, "let"},
+		{token.LET, "la"},
 		{token.IDENT, "add"},
 		{token.ASSIGN, "="},
-		{token.FUNCTION, "fn"},
+		{token.FUNCTION, "funksjon"},
 		{token.LPAREN, "("},
 		{token.IDENT, "x"},
 		{token.COMMA, ","},
@@ -73,7 +73,7 @@ len("123")
 		{token.SEMICOLON, ";"},
 		{token.RBRACE, "}"},
 		{token.SEMICOLON, ";"},
-		{token.LET, "let"},
+		{token.LET, "la"},
 		{token.IDENT, "result"},
 		{token.ASSIGN, "="},
 		{token.IDENT, "add"},
@@ -95,20 +95,20 @@ len("123")
 		{token.GT, ">"},
 		{token.INT, "5"},
 		{token.SEMICOLON, ";"},
-		{token.IF, "if"},
+		{token.IF, "hvis"},
 		{token.LPAREN, "("},
 		{token.INT, "5"},
 		{token.LT, "<"},
 		{token.INT, "10"},
 		{token.RPAREN, ")"},
 		{token.LBRACE, "{"},
-		{token.RETURN, "return"},
+		{token.RETURN, "returner"},
 		{token.TRUE, "sant"},
 		{token.SEMICOLON, ";"},
 		{token.RBRACE, "}"},
-		{token.ELSE, "else"},
+		{token.ELSE, "ellers"},
 		{token.LBRACE, "{"},
-		{token.RETURN, "return"},
+		{token.RETURN, "returner"},
 		{token.FALSE, "falskt"},
 		{token.SEMICOLON, ";"},
 		{token.RBRACE, "}"},
