@@ -4,24 +4,26 @@ package lexer
 
 import (
 	"bytes"
+	"unicode"
+
 	"github.com/solbero/monkey/token"
 )
 
 func New(input string) *Lexer {
-	l := &Lexer{input: input}
+	l := &Lexer{input: []rune(input)}
 	l.readChar()
 	return l
 }
 
-func newToken(tokenType token.TokenType, ch byte) token.Token {
+func newToken(tokenType token.TokenType, ch rune) token.Token {
 	return token.Token{Type: tokenType, Literal: string(ch)}
 }
 
 type Lexer struct {
-	input        string
+	input        []rune
 	position     int  // current position in input (points to current char)
 	readPosition int  // current reading position in input (after current char)
-	ch           byte // current reading position in input (after current char)
+	ch           rune // current char
 }
 
 func (l *Lexer) NextToken() token.Token {
@@ -86,12 +88,12 @@ func (l *Lexer) NextToken() token.Token {
 		tok.Type = token.EOF
 	default:
 		if isLetter(l.ch) {
-			tok.Literal = l.readIdentifier()
+			tok.Literal = string(l.readIdentifier())
 			tok.Type = token.LookupIdent(tok.Literal)
 			return tok
 		} else if isDigit(l.ch) {
 			tok.Type = token.INT
-			tok.Literal = l.readNumber()
+			tok.Literal = string(l.readNumber())
 			return tok
 		} else {
 			tok = newToken(token.ILLEGAL, l.ch)
@@ -113,7 +115,7 @@ func (l *Lexer) readChar() {
 	l.readPosition += 1
 }
 
-func (l *Lexer) peekChar() byte {
+func (l *Lexer) peekChar() rune {
 	if l.readPosition >= len(l.input) {
 		return 0
 	} else {
@@ -121,7 +123,7 @@ func (l *Lexer) peekChar() byte {
 	}
 }
 
-func (l *Lexer) readIdentifier() string {
+func (l *Lexer) readIdentifier() []rune {
 	position := l.position
 	for isLetter(l.ch) {
 		l.readChar()
@@ -129,7 +131,7 @@ func (l *Lexer) readIdentifier() string {
 	return l.input[position:l.position]
 }
 
-func (l *Lexer) readNumber() string {
+func (l *Lexer) readNumber() []rune {
 	position := l.position
 	for isDigit(l.ch) {
 		l.readChar()
@@ -164,21 +166,19 @@ func (l *Lexer) readString() string {
 			break
 		}
 
-		buff.WriteByte(l.ch)
+		buff.WriteRune(l.ch)
 		l.readChar()
 	}
 
 	return buff.String()
 }
 
-func isLetter(ch byte) bool {
-	return 'a' <= ch && ch <= 'z' ||
-		'A' <= ch && ch <= 'Z' ||
-		ch == '_'
+func isLetter(ch rune) bool {
+	return unicode.IsLetter(ch)
 }
 
-func isDigit(ch byte) bool {
-	return '0' <= ch && ch <= '9'
+func isDigit(ch rune) bool {
+	return unicode.IsNumber(ch)
 }
 
 func (l *Lexer) skipWhitespace() {
