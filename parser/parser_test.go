@@ -404,6 +404,7 @@ func TestStringLiteralExpression(t *testing.T) {
 		{input: `"hello\t\t\tworld"`, expected: "hello\t\t\tworld"},
 		{input: `"hello\\world"`, expected: "hello\\world"},
 		{input: `"hello\bworld"`, expected: "helloworld"},
+		{input: `"spis blåbærsyltetøy"`, expected: "spis blåbærsyltetøy"},
 	}
 
 	for _, tt := range tests {
