@@ -260,6 +260,7 @@ func TestBuiltinFunctions(t *testing.T) {
 		{input: `dytt([], 1)`, expected: []int64{1}},
 		{input: `dytt(1, 1)`, expected: "argument to 'dytt' must be ARRAY, got INTEGER"},
 		{input: `dytt([1, 2], 1, 2)`, expected: "wrong number of arguments, got 3, want 2"},
+		{input: `dytt([1], 2)`, expected: []int64{1,2}},
 	}
 
 	for _, tt := range tests {
@@ -276,6 +277,21 @@ func TestBuiltinFunctions(t *testing.T) {
 			}
 			if errObj.Message != expected {
 				t.Errorf("wrong error message, expected %q, got %q", expected, errObj.Message)
+			}
+			case []int64:
+			array, ok := evaluated.(*object.Array)
+			if !ok {
+				t.Errorf("obj not Array. got=%T (%+v)", evaluated, evaluated)
+				continue
+			}
+			if len(array.Elements) != len(expected) {
+				t.Errorf("wrong number of elements, expected %d, got %d",
+					len(expected), len(array.Elements))
+				continue
+			}
+
+			for i, element := range expected {
+				checkIntegerObject(t, array.Elements[i], int64(element))
 			}
 		}
 	}
