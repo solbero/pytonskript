@@ -7,7 +7,7 @@ Monkey is not an official language and has no official specification. It is a to
 ## Installation
 
 ```go
-go install github.com/solbero/monkey@latest
+go install github.com/solbero/pyton@latest
 ```
 
 ## Usage

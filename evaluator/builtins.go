@@ -3,7 +3,7 @@
 package evaluator
 
 import (
-	"github.com/solbero/monkey/object"
+	"github.com/solbero/pyton/object"
 )
 
 var builtins = map[string]*object.Builtin{

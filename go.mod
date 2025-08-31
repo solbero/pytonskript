@@ -1,3 +1,3 @@
-module github.com/solbero/monkey
+module github.com/solbero/pyton
 
 go 1.20

@@ -3,8 +3,9 @@
 package ast
 
 import (
-	"github.com/solbero/monkey/token"
 	"testing"
+
+	"github.com/solbero/pyton/token"
 )
 
 func TestString(t *testing.T) {

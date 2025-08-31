@@ -4,10 +4,11 @@ package parser
 
 import (
 	"fmt"
-	"github.com/solbero/monkey/ast"
-	"github.com/solbero/monkey/lexer"
-	"github.com/solbero/monkey/token"
 	"strconv"
+
+	"github.com/solbero/pyton/ast"
+	"github.com/solbero/pyton/lexer"
+	"github.com/solbero/pyton/token"
 )
 
 const (

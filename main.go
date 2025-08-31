@@ -7,8 +7,8 @@ import (
 	"os"
 	"os/user"
 
-	"github.com/solbero/monkey/exec"
-	"github.com/solbero/monkey/repl"
+	"github.com/solbero/pyton/exec"
+	"github.com/solbero/pyton/repl"
 )
 
 func main() {

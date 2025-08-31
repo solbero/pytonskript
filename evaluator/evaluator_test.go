@@ -5,9 +5,9 @@ package evaluator
 import (
 	"testing"
 
-	"github.com/solbero/monkey/lexer"
-	"github.com/solbero/monkey/object"
-	"github.com/solbero/monkey/parser"
+	"github.com/solbero/pyton/lexer"
+	"github.com/solbero/pyton/object"
+	"github.com/solbero/pyton/parser"
 )
 
 func TestEvalIntegerExpression(t *testing.T) {

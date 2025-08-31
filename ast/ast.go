@@ -4,8 +4,9 @@ package ast
 
 import (
 	"bytes"
-	"github.com/solbero/monkey/token"
 	"strings"
+
+	"github.com/solbero/pyton/token"
 )
 
 type Node interface {

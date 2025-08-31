@@ -6,8 +6,9 @@ import (
 	"bytes"
 	"fmt"
 	"hash/fnv"
-	"github.com/solbero/monkey/ast"
 	"strings"
+
+	"github.com/solbero/pyton/ast"
 )
 
 type ObjectType string
