@@ -14,7 +14,7 @@ import (
 type ObjectType string
 
 const (
-	INTEGER_OBJ     = "INTEGER"
+	INTEGER_OBJ      = "INTEGER"
 	BOOLEAN_OBJ      = "BOOLEAN"
 	NULL_OBJ         = "NULL"
 	RETURN_VALUE_OBJ = "RETURN_VALUE"
@@ -62,7 +62,12 @@ type Boolean struct {
 	Value bool
 }
 
-func (b *Boolean) Inspect() string  { return fmt.Sprintf("%t", b.Value) }
+func (b *Boolean) Inspect() string {
+	if b.Value {
+		return "sant"
+	}
+	return "falskt"
+}
 func (b *Boolean) Type() ObjectType { return BOOLEAN_OBJ }
 
 type ReturnValue struct {

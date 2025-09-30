@@ -128,7 +128,7 @@ func TestReturnStatements(t *testing.T) {
 		{"returner 2 * 5; 9;", 10},
 		{"9; returner 2 * 5; 9;", 10}, // 9; is ignored
 		{"hvis (10 > 1) {hvis (10 > 1) {returner 10;} returner 1}", 10},
-		{"la f = funksjon(x) {returner x; x + 10;}; f(10);", 10}, // x + 10; is ignored
+		{"la f = funksjon(x) {returner x; x + 10;}; f(10);", 10},                               // x + 10; is ignored
 		{"la f = funksjon(x) {la result = x + 10; returner result; returner 10;}; f(10);", 20}, // return 10; is ignored
 	}
 
@@ -187,7 +187,7 @@ func TestFunctionApplication(t *testing.T) {
 		{"la double = funksjon(x) { x * 2; }; double(5);", 10},
 		{"la add = funksjon(x, y) { x + y; }; add(5, 5);", 10},
 		{"la add = funksjon(x, y) { x + y; }; add(5 + 5, add(5, 5));", 20}, // nested function calls
-		{"funksjon(x) { x; }(5)", 5},                                        // immediately invoked function expression
+		{"funksjon(x) { x; }(5)", 5},                                       // immediately invoked function expression
 	}
 
 	for _, tt := range tests {
@@ -260,7 +260,7 @@ func TestBuiltinFunctions(t *testing.T) {
 		{input: `dytt([], 1)`, expected: []int64{1}},
 		{input: `dytt(1, 1)`, expected: "argument to 'dytt' must be ARRAY, got INTEGER"},
 		{input: `dytt([1, 2], 1, 2)`, expected: "wrong number of arguments, got 3, want 2"},
-		{input: `dytt([1], 2)`, expected: []int64{1,2}},
+		{input: `dytt([1], 2)`, expected: []int64{1, 2}},
 		{input: `skjær([1], 0)`, expected: []int64{1}},
 		{input: `skjær([1, 2], 1)`, expected: []int64{2}},
 		{input: `skjær([1, 2, 3], 1, 2)`, expected: []int64{2}},
@@ -268,7 +268,13 @@ func TestBuiltinFunctions(t *testing.T) {
 		{input: `skjær([1], 2)`, expected: "invalid slice indices: start=2, stop=1"},
 		{input: `skjær([1], -1)`, expected: "invalid slice indices: start=-1, stop=1"},
 		{input: `skjær([1], 0, 2)`, expected: "invalid slice indices: start=0, stop=2"},
-
+		{input: `strengifiser("hello")`, expected: "hello"},
+		{input: `strengifiser(2 + 2)`, expected: "4"},
+		{input: `strengifiser([1, 2, 3])`, expected: "[1, 2, 3]"},
+		{input: `strengifiser(sant)`, expected: "sant"},
+		{input: `strengifiser(funksjon(x) { x * 2 }(4))`, expected: "8"},
+		{input: `strengifiser()`, expected: "wrong number of arguments, got 0, want 1"},
+		{input: `strengifiser(2, 2)`, expected: "wrong number of arguments, got 2, want 1"},
 	}
 
 	for _, tt := range tests {
@@ -279,14 +285,21 @@ func TestBuiltinFunctions(t *testing.T) {
 			checkIntegerObject(t, evaluated, int64(expected))
 		case string:
 			errObj, ok := evaluated.(*object.Error)
-			if !ok {
-				t.Errorf("object is not Error, got %T (%+v)", evaluated, evaluated)
+			if ok {
+				if errObj.Message != expected {
+					t.Errorf("wrong error message, expected %q, got %q", expected, errObj.Message)
+				}
 				continue
 			}
-			if errObj.Message != expected {
-				t.Errorf("wrong error message, expected %q, got %q", expected, errObj.Message)
+			strObj, ok := evaluated.(*object.String)
+			if ok {
+				if strObj.Value != expected {
+					t.Errorf("wrong string value, expected %q, got %q", expected, strObj.Value)
+				}
+				continue
 			}
-			case []int64:
+			t.Errorf("object is neither Error nor String, got %T (%+v)", evaluated, evaluated)
+		case []int64:
 			array, ok := evaluated.(*object.Array)
 			if !ok {
 				t.Errorf("obj not Array. got=%T (%+v)", evaluated, evaluated)
