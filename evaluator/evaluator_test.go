@@ -261,6 +261,14 @@ func TestBuiltinFunctions(t *testing.T) {
 		{input: `dytt(1, 1)`, expected: "argument to 'dytt' must be ARRAY, got INTEGER"},
 		{input: `dytt([1, 2], 1, 2)`, expected: "wrong number of arguments, got 3, want 2"},
 		{input: `dytt([1], 2)`, expected: []int64{1,2}},
+		{input: `skjær([1], 0)`, expected: []int64{1}},
+		{input: `skjær([1, 2], 1)`, expected: []int64{2}},
+		{input: `skjær([1, 2, 3], 1, 2)`, expected: []int64{2}},
+		{input: `skjær([1], 1)`, expected: []int64{}},
+		{input: `skjær([1], 2)`, expected: "invalid slice indices: start=2, stop=1"},
+		{input: `skjær([1], -1)`, expected: "invalid slice indices: start=-1, stop=1"},
+		{input: `skjær([1], 0, 2)`, expected: "invalid slice indices: start=0, stop=2"},
+
 	}
 
 	for _, tt := range tests {

@@ -110,4 +110,39 @@ var builtins = map[string]*object.Builtin{
 			return NULL
 		},
 	},
+	"skjær": &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 {
+				return newError("wrong number of arguments, got %d, want at least 2", len(args))
+			} else if len(args) > 3 {
+				return newError("wrong number of arguments, got %d, want less than 3", len(args))
+			}
+
+			if args[0].Type() != object.ARRAY_OBJ {
+				return newError("first argument to 'skjær' must be ARRAY, got %s", args[0].Type())
+			}
+
+			if args[1].Type() != object.INTEGER_OBJ {
+				return newError("second argument to 'skjær' must be INTEGER, got %s", args[1].Type())
+			}
+
+			if len(args) == 3 && args[2].Type() != object.INTEGER_OBJ {
+				return newError("third argument to 'skjær' must be INTEGER, got %s", args[2].Type())
+			}
+
+			arr := args[0].(*object.Array)
+			start := args[1].(*object.Integer).Value
+			stop := int64(len(arr.Elements))
+			if len(args) == 3 {
+				stop = args[2].(*object.Integer).Value
+			}
+
+			if start < 0 || stop > int64(len(arr.Elements)) || start > stop {
+				return newError("invalid slice indices: start=%d, stop=%d", start, stop)
+			}
+
+			newElements := arr.Elements[start:stop]
+			return &object.Array{Elements: newElements}
+		},
+	},
 }

@@ -14,7 +14,7 @@ import (
 type ObjectType string
 
 const (
-	INTERGER_OBJ     = "INTEGER"
+	INTEGER_OBJ     = "INTEGER"
 	BOOLEAN_OBJ      = "BOOLEAN"
 	NULL_OBJ         = "NULL"
 	RETURN_VALUE_OBJ = "RETURN_VALUE"
@@ -49,7 +49,7 @@ type Integer struct {
 }
 
 func (i *Integer) Inspect() string  { return fmt.Sprintf("%d", i.Value) }
-func (i *Integer) Type() ObjectType { return INTERGER_OBJ }
+func (i *Integer) Type() ObjectType { return INTEGER_OBJ }
 
 type String struct {
 	Value string

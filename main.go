@@ -21,8 +21,8 @@ func main() {
 
 	switch len(args) {
 	case 1:
-		fmt.Printf("Hello %s! This is the Monkey programming language!\n", user.Username)
-		fmt.Printf("Feel free to type in commands\n")
+		fmt.Printf("Hei %s! Dette er programmeringsspråket Pyton!\n", user.Username)
+		fmt.Printf("Her kan du skrive inn instruksjoner\n")
 		repl.Start(os.Stdin, os.Stdout)
 	case 2:
 		file, err := os.Open(args[1])
