@@ -81,14 +81,14 @@ var builtins = map[string]*object.Builtin{
 			return NULL
 		},
 	},
-	"dytt": &object.Builtin{
+	"tilføy": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 2 {
 				return newError("wrong number of arguments, got %d, want 2", len(args))
 			}
 
 			if args[0].Type() != object.ARRAY_OBJ {
-				return newError("argument to 'dytt' must be ARRAY, got %s", args[0].Type())
+				return newError("argument to 'tilføy' must be ARRAY, got %s", args[0].Type())
 			}
 
 			arr := args[0].(*object.Array)
@@ -110,7 +110,7 @@ var builtins = map[string]*object.Builtin{
 			return NULL
 		},
 	},
-	"skjær": &object.Builtin{
+	"kutt": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 2 {
 				return newError("wrong number of arguments, got %d, want at least 2", len(args))
@@ -119,15 +119,15 @@ var builtins = map[string]*object.Builtin{
 			}
 
 			if args[0].Type() != object.ARRAY_OBJ {
-				return newError("first argument to 'skjær' must be ARRAY, got %s", args[0].Type())
+				return newError("first argument to 'kutt' must be ARRAY, got %s", args[0].Type())
 			}
 
 			if args[1].Type() != object.INTEGER_OBJ {
-				return newError("second argument to 'skjær' must be INTEGER, got %s", args[1].Type())
+				return newError("second argument to 'kutt' must be INTEGER, got %s", args[1].Type())
 			}
 
 			if len(args) == 3 && args[2].Type() != object.INTEGER_OBJ {
-				return newError("third argument to 'skjær' must be INTEGER, got %s", args[2].Type())
+				return newError("third argument to 'kutt' must be INTEGER, got %s", args[2].Type())
 			}
 
 			arr := args[0].(*object.Array)
@@ -145,7 +145,7 @@ var builtins = map[string]*object.Builtin{
 			return &object.Array{Elements: newElements}
 		},
 	},
-	"strengifiser": &object.Builtin{
+	"tilStreng": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 {
 				return newError("wrong number of arguments, got %d, want 1", len(args))
