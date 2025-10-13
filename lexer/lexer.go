@@ -174,7 +174,7 @@ func (l *Lexer) readString() string {
 }
 
 func isLetter(ch rune) bool {
-	return unicode.IsLetter(ch)
+	return unicode.IsLetter(ch) || unicode.In(ch, unicode.Pc, unicode.Pd)
 }
 
 func isDigit(ch rune) bool {

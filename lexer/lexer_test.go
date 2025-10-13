@@ -41,6 +41,8 @@ hvis (5 < 10) {
 
 len("123")
 
+la fem_fem = 55
+
 `
 
 	tests := []struct {
@@ -143,6 +145,10 @@ len("123")
 		{token.LPAREN, "("},
 		{token.STRING, "123"},
 		{token.RPAREN, ")"},
+		{token.LET, "la"},
+		{token.IDENT, "fem_fem"},
+		{token.ASSIGN, "="},
+		{token.INT, "55"},
 		{token.EOF, ""},
 	}
 
