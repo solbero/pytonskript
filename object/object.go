@@ -8,7 +8,7 @@ import (
 	"hash/fnv"
 	"strings"
 
-	"github.com/solbero/pyton/ast"
+	"github.com/solbero/pytonskript/ast"
 )
 
 type ObjectType string

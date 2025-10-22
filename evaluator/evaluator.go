@@ -5,8 +5,8 @@ package evaluator
 import (
 	"fmt"
 
-	"github.com/solbero/pyton/ast"
-	"github.com/solbero/pyton/object"
+	"github.com/solbero/pytonskript/ast"
+	"github.com/solbero/pytonskript/object"
 )
 
 var (

@@ -7,10 +7,10 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/solbero/pyton/evaluator"
-	"github.com/solbero/pyton/lexer"
-	"github.com/solbero/pyton/object"
-	"github.com/solbero/pyton/parser"
+	"github.com/solbero/pytonskript/evaluator"
+	"github.com/solbero/pytonskript/lexer"
+	"github.com/solbero/pytonskript/object"
+	"github.com/solbero/pytonskript/parser"
 )
 
 const PROMPT = ">> "

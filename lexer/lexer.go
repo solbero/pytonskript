@@ -6,7 +6,7 @@ import (
 	"bytes"
 	"unicode"
 
-	"github.com/solbero/pyton/token"
+	"github.com/solbero/pytonskript/token"
 )
 
 func New(input string) *Lexer {

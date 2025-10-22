@@ -6,7 +6,7 @@ import (
 	"bytes"
 	"strings"
 
-	"github.com/solbero/pyton/token"
+	"github.com/solbero/pytonskript/token"
 )
 
 type Node interface {

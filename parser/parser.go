@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/solbero/pyton/ast"
-	"github.com/solbero/pyton/lexer"
-	"github.com/solbero/pyton/token"
+	"github.com/solbero/pytonskript/ast"
+	"github.com/solbero/pytonskript/lexer"
+	"github.com/solbero/pytonskript/token"
 )
 
 const (

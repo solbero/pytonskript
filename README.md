@@ -7,7 +7,7 @@ Pytonskript er laget for å vise hvordan programmeringsspråk kan se ut på nors
 ## Installering
 
 ```go
-go install github.com/solbero/pytonskript@latest
+go install github.com/solbero/pytonskriptskript@latest
 ```
 
 ## Bruk

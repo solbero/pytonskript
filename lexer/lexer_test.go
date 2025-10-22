@@ -3,7 +3,7 @@ package lexer
 import (
 	"testing"
 
-	"github.com/solbero/pyton/token"
+	"github.com/solbero/pytonskript/token"
 )
 
 func TestNextToken(t *testing.T) {

@@ -5,7 +5,7 @@ package ast
 import (
 	"testing"
 
-	"github.com/solbero/pyton/token"
+	"github.com/solbero/pytonskript/token"
 )
 
 func TestString(t *testing.T) {

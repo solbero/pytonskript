@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/solbero/pyton/ast"
-	"github.com/solbero/pyton/lexer"
+	"github.com/solbero/pytonskript/ast"
+	"github.com/solbero/pytonskript/lexer"
 )
 
 func TestLetStatements(t *testing.T) {
