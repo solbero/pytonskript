@@ -268,13 +268,13 @@ func TestBuiltinFunctions(t *testing.T) {
 		{input: `kutt([1], 2)`, expected: "invalid slice indices: start=2, stop=1"},
 		{input: `kutt([1], -1)`, expected: "invalid slice indices: start=-1, stop=1"},
 		{input: `kutt([1], 0, 2)`, expected: "invalid slice indices: start=0, stop=2"},
-		{input: `tilStreng("hello")`, expected: "hello"},
-		{input: `tilStreng(2 + 2)`, expected: "4"},
-		{input: `tilStreng([1, 2, 3])`, expected: "[1, 2, 3]"},
-		{input: `tilStreng(sant)`, expected: "sant"},
-		{input: `tilStreng(funksjon(x) { x * 2 }(4))`, expected: "8"},
-		{input: `tilStreng()`, expected: "wrong number of arguments, got 0, want 1"},
-		{input: `tilStreng(2, 2)`, expected: "wrong number of arguments, got 2, want 1"},
+		{input: `streng("hello")`, expected: "hello"},
+		{input: `streng(2 + 2)`, expected: "4"},
+		{input: `streng([1, 2, 3])`, expected: "[1, 2, 3]"},
+		{input: `streng(sant)`, expected: "sant"},
+		{input: `streng(funksjon(x) { x * 2 }(4))`, expected: "8"},
+		{input: `streng()`, expected: "wrong number of arguments, got 0, want 1"},
+		{input: `streng(2, 2)`, expected: "wrong number of arguments, got 2, want 1"},
 	}
 
 	for _, tt := range tests {

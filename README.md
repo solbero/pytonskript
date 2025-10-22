@@ -1,26 +1,31 @@
-# Writing an interpreter in Go
+# Koding på norsk
 
-This repository contains my implementation of the Monkey interpreter as described in the book [Writing an Interpreter in Go](https://interpreterbook.com/) and the addition [The Lost Chapter: A Macro System For Monkey](https://interpreterbook.com/lost/).
+Denne kodebrønnen inneholder det norske programmeringsspråket Pytonskript. Språket er basert på _Monkey_ som er beskreveti boken [Writing an Interpreter in Go](https://interpreterbook.com/).
 
-Monkey is not an official language and has no official specification. It is a toy language that is used to teach the basics of writing an interpreter. You can read more about the Monkey language and see other implementations [Monkey: The programming language that lives in books](https://monkeylang.org/).
+Pytonskript er laget for å vise hvordan programmeringsspråk kan se ut på norsk.
 
-## Installation
+## Installering
 
 ```go
-go install github.com/solbero/pyton@latest
+go install github.com/solbero/pytonskript@latest
 ```
 
-## Usage
+## Bruk
 
+### Interaktivt
 ```bash
 $ go run main.go
-Hello mrnugget! This is the Monkey programming language!
-Feel free to type in commands
->> let answer = 6 * 7;
->> answer;
+>> la svar = 6 * 7;
+>> svar;
 42
 ```
 
-## License
+### Kjøring fra fil
+```bash
+$ go run main.go ./examples/variabler.pytonskript
+HelloStavanger!
+```
+
+## Lisens
 
 MIT License

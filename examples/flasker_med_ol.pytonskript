@@ -1,0 +1,14 @@
+la flasker = {0: "Ingen flasker", 1: "Én flaske", 2: "To flasker"}
+
+la vers = funksjon(n) {
+  hvis (n > 0) {
+    skriv("♪ " + flasker[n] + " med øl i mitt skap. " + flasker[n] + " med øl.");
+    skriv("  Du drikker en øl uten søl. " + flasker[n - 1] + " med øl i mitt skap.\n");
+    vers(n - 1);
+  } ellers {
+    skriv("♪ " + flasker[n] + " med øl i mitt skap. " + flasker[n] + " med øl.");
+    skriv("  Vær litt kvikk og kjøp mer i butikk. " + "Nye flasker med øl i mitt skap.");
+  }
+};
+
+vers(2);

@@ -1,0 +1,5 @@
+la hilsen = "Hello";
+la navn = "Stavanger";
+la sammensatt_hilsen = hilsen + navn + "!";
+
+skriv(sammensatt_hilsen);

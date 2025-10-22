@@ -1,0 +1,21 @@
+la tilordne = funksjon(liste, transformasjon) {
+  la iterer = funksjon(liste, akkumulert) {
+    hvis (lengde(liste) == 0) {
+      returner akkumulert;
+    }
+    returner iterer(resten(liste), tilføy(akkumulert, transformasjon(første(liste))));
+  };
+  returner iterer(liste, []);
+};
+
+la tallrekke = [1, 2, 3, 4, 5];
+
+la til_ordinaler = funksjon(x) {streng(x) + "."};
+la ordinaler = tilordne(tallrekke, til_ordinaler);
+
+la fordobler = funksjon(x) { x * 2 };
+la fordoblet_tallrekke = tilordne(tallrekke, fordobler);
+
+skriv("Tallrekken er: " + streng(tallrekke));
+skriv("Ordinalene er: " + streng(ordinaler));
+skriv("Fordoblet tallrekke er: " + streng(fordoblet_tallrekke));

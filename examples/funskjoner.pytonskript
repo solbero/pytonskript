@@ -1,0 +1,14 @@
+la opprett_hilsen = funksjon(hilsen) {
+  funksjon(navn) {
+    skriv(hilsen + " " + navn + "!")
+  }
+};
+
+la hei = opprett_hilsen("Hei");
+la hade = opprett_hilsen("Hade");
+
+hei("Njord");
+hei("på deg")
+
+hade("Njord")
+hade("på badet")

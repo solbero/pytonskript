@@ -1,0 +1,13 @@
+la ljug = funksjon(uttrykk) {
+  hvis (uttrykk == sant) {
+    returner "falskt"
+  } ellers {
+    returner "sant"
+  }
+};
+
+la første_svar = ljug(1 + 1 == 3);
+la andre_svar = ljug(sant == sant);
+
+skriv("Uttrykket 1 + 1 == 3 er " + første_svar + "!");
+skriv("Uttrykket sant == sant er " + andre_svar + "!");
