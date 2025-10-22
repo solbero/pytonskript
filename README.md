@@ -6,8 +6,9 @@ Pytonskript er laget for å vise hvordan programmeringsspråk kan se ut på nors
 
 ## Installering
 
-```go
-go install github.com/solbero/pytonskriptskript@latest
+```sh
+git clone https://github.com/solbero/pytonskript.git
+cd ./pytonskript
 ```
 
 ## Bruk
@@ -22,9 +23,8 @@ $ go run main.go
 
 ### Kjøring fra fil
 ```bash
-$ go run main.go ./examples/variabler.pytonskript
+$ go run main.go ./examples/variabler.pytonskript 
 HelloStavanger!
-```
 
 ## Lisens
 
