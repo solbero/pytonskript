@@ -25,6 +25,7 @@ $ go run main.go
 ```bash
 $ go run main.go ./examples/variabler.pytonskript 
 HelloStavanger!
+```
 
 ## Lisens
 
